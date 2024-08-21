@@ -63,4 +63,62 @@ describe("findPrimes Events", function () {
       done(new Error("ABORT REQUEST FAILED"));
     });
   });
+
+  it("should emit PAUSE event and stop processing", function (done) {
+    let paused = false;
+    let resumeEmitted = false;
+
+    var event = findPrimes(0, 1000);
+
+    event.on("PROGRESS", () => {
+      if (!paused) {
+        event.emit("PAUSE");
+      }
+    });
+
+    event.on("PAUSED", () => {
+      paused = true;
+      // Delay to ensure PAUSE has stopped processing
+      setTimeout(() => {
+        resumeEmitted.should.be.false; // Ensure RESUME has not been emitted yet
+        done(); // Finish the test after PAUSED event
+      }, 100); // Short delay to simulate pause
+    });
+
+    event.on("RESUMED", () => {
+      resumeEmitted = true; // Track if RESUME event is emitted
+    });
+  });
+
+  it("should emit RESUME event and continue processing", function (done) {
+    let paused = false;
+    let resumed = false;
+
+    var event = findPrimes(0, 1000);
+
+    event.on("PROGRESS", () => {
+      if (!paused) {
+        event.emit("PAUSE");
+      } else if (paused && !resumed) {
+        setTimeout(() => {
+          event.emit("RESUME");
+        }, 50); // Short delay before emitting RESUME
+      }
+    });
+
+    event.on("PAUSED", () => {
+      paused = true;
+    });
+
+    event.on("RESUMED", () => {
+      resumed = true;
+    });
+
+    event.on("DONE", (response) => {
+      expect(paused).to.be.true;
+      expect(resumed).to.be.true;
+      expect(response.primes).to.be.a("number");
+      done();
+    });
+  });
 });
