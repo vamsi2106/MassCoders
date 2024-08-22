@@ -1,68 +1,59 @@
-var EventEmitter = require("events");
-var { isPrimeSync } = require("./primes");
+// var EventEmitter=require('events');
+var {Event} = require("./event-frame")
+var {isPrimeSync}=require('./primes');
 
-var instanceCount = 0;
-function findPrimes(min, max) {
-  var event = new EventEmitter();
-  var low = min;
-  var high = Math.min(max, min + 1000);
-  var index = 0;
-  var id = ++instanceCount;
-  var batch = 0;
-  var isPaused = false; // Flag to control pause and resume
-  var iid; // Store interval ID for control
+var instanceCount=0;
+function findPrimes(min,max){
 
-  function processPrimes() {
-    if (max <= min) {
-      event.emit("ERROR", { id, min, max, error: `Invalid Range` });
-      clearInterval(iid);
-      return;
-    }
+    var event = new Event();
+    var low=min;
+    var high=Math.min(max,min+1000);
+    var index=0;
+    var id=++instanceCount;
+    var batch=0;
 
-    for (var i = low; i < high; i++) {
-      if (isPrimeSync(i)) {
-        index++;
-        event.emit("PRIME", { id, min, max, index, prime: i });
-      }
-    }
-    batch++;
-    event.emit("PROGRESS", { id, min, max, batch, high, primes: index });
+    const iid=setInterval(function(){
+        if(max<=min){
+            event.emit('ERROR',{id,min,max,error:`Invalid Range`});
+            
+           
+            clearInterval(iid);
+            return;
+        }
 
-    low = high;
-    high = Math.min(max, low + 1000);
-    if (high <= low) {
-      event.emit("DONE", { id, min, max, primes: index });
-      clearInterval(iid);
-    }
-  }
+        for(var i=low;i<high;i++){
+            if(isPrimeSync(i)){
+                index++;
+                event.emit('PRIME',{id,min,max,index,prime:i})
+               
+            }
+        }
+        batch++;
+        event.emit('PROGRESS',{id,min,max,batch,high,primes:index})
 
-  iid = setInterval(function () {
-    if (!isPaused) {
-      processPrimes();
-    }
-  }, 1);
+        low=high;
+        high=Math.min(max,low+1000);
+        if(high<=low){
+            event.emit('DONE',{id,min,max,primes:index})
+            clearInterval(iid);
+        }
 
-  event.on("ABORT", function () {
-    clearInterval(iid);
-    event.emit("ABORTED", { id, min, max, primes: index, high });
-  });
+    },1);
 
-  event.on("PAUSE", function () {
-    isPaused = true;
-    event.emit("PAUSED", { id, min, max, primes: index, high });
-  });
+    let responseEvent = event.on('ABORT', function(){
+        clearInterval(iid);
+        event.emit('ABORTED',{id,min,max,primes:index,high});
+    });
 
-  event.on("RESUME", function () {
-    if (isPaused) {
-      isPaused = false;
-      processPrimes();
-      event.emit("RESUMED", { id, min, max, primes: index, high });
-    }
-  });
-
-  return event;
+    return () => responseEvent,id;
 }
 
-module.exports = {
-  findPrimes,
+var pr =  findPrimes(10,1);
+
+
+module.exports={
+    findPrimes
 };
+
+
+
