@@ -7,7 +7,9 @@ var { isPrimeSync } = require("../src/primes");
 var { findPrimes } = require("../src/prime-events");
 
 describe("findPrimes Events", function () {
+  
   it("should return error on invalid range", function (done) {
+    
     let event = findPrimes(10, 1);
     event.on("ERROR", (response) => {
       response.error.should.equal("Invalid Range");

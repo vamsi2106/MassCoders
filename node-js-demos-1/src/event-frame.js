@@ -10,7 +10,7 @@ class Event{
     }
 
     on(message, handler){
-        return this.response[message];
+       this.response[message] = handler;
     }
 }
 
