@@ -1,0 +1,24 @@
+{
+  "name": "js-demos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --timeout 20000",
+    "test:watch": "mocha --watch --timeout 20000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "chai": "^4.5.0",
+    "chai-as-promised": "^7.1.2",
+    "mocha": "^10.7.3"
+  },
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
