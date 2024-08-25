@@ -76,10 +76,10 @@ export class LinkedList<T> {
             }
         }
  
-        if (current) {
-            this._current = current;
-            this._currentIndex = index;
-        }
+       
+        this._current = current;
+        this._currentIndex = index;
+       
  
         return current!;
     }
@@ -187,5 +187,4 @@ export class LinkedList<T> {
     }
 }
  
-
 
