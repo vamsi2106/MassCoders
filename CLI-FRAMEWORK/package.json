@@ -1,0 +1,18 @@
+{
+  "name": "masscoders-cli",
+  "version": "1.0.0",
+  "main": "src/books-cli.js",
+  "bin": {
+    "books-cli": "src/books-cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "masscoders": "node src/books-cli.js"
+  },
+  "author": "Vamsi Chilakalapudi",
+  "license": "ISC",
+  "description": "A CLI Tool for managing books",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
