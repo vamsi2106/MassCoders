@@ -1,0 +1,20 @@
+{
+  "name": "mongodb_demos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "mongodb": "^6.8.0",
+    "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.5.0",
+    "mocha": "^10.7.3"
+  }
+}
