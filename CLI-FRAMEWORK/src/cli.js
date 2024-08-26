@@ -72,7 +72,7 @@ class CLI {
       "Interactive mode started. Type 'exit' or 'ctrl+c' to quit. 🕹️"
     );
     while (true) {
-      const input = prompt("> "); // Read user input
+      const input = prompt("> "); // Read user input  
       // get-books "vivek"
       const [cmd, ...cmdArgs] = input.split(" ");
       this.runCommand(cmd, cmdArgs);
