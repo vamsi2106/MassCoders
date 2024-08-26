@@ -30,7 +30,9 @@ cli.addCommand("get-books", "Lists all books.", () => {
     cli.print(
       `Book-${index + 1}: Title: ${book.title} | Author: ${
         book.author
-      } | Price: ${book.price} | Rating: ${book.rating} | Tags: ${book.tags}`
+      } | Price: ${book.price} | Rating: ${book.rating} | Tags: ${
+        book.tags
+      } | id: ${book._id}`
     );
   });
   console.log();

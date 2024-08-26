@@ -72,7 +72,7 @@ let booksList = new LinkedList(
   }
 );
 
-let _lastId = 8;
+let _lastId = booksList.size();
 const bookOperations = {
   // Method to add a book
   addBook(book) {
