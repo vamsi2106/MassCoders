@@ -1,23 +1,28 @@
-
 var {connect} =require('./connection');
 
 var url='mongodb://localhost/';
 
-async function getAllBooks(){
+async function connectionDb(){
     var connection= await connect(url);
 
     var db= connection.db('g7cr_202408');
 
     var books= db.collection('books');
+
+    return books;
+
+}
+
+async function getAllBooks(){
+   
+    var books= await connectionDb();
     var bookss= await books.find();
     return bookss;
 }
 
 async function getBookById(id){
 
-    var connection= await connect(url);
-    var db= connection.db('g7cr_202408');
-    var books= db.collection('books');
+    var books= await connectionDb();
     var book =await books.findOne({id});
     return book;
 
@@ -25,9 +30,7 @@ async function getBookById(id){
 
 async function removeBookById(id){
 
-    var connection= await connect(url);
-    var db= connection.db('g7cr_202408');
-    var books= db.collection('books');
+    var books= await connectionDb();
     var resultOfAfterRemove= await books.deleteOne({id});
     return resultOfAfterRemove;
 
@@ -35,9 +38,7 @@ async function removeBookById(id){
 
 async function removeBookById(id){
 
-    var connection= await connect(url);
-    var db= connection.db('g7cr_202408');
-    var books= db.collection('books');
+    var books= await connectionDb();
     var resultOfAfterRemove= await books.deleteOne({id});
     return resultOfAfterRemove;
 
@@ -45,9 +46,7 @@ async function removeBookById(id){
 
 async function removeManyBookBy(id){
 
-    var connection= await connect(url);
-    var db= connection.db('g7cr_202408');
-    var books= db.collection('books');
+    var books= await connectionDb();
     var resultOfAfterRemoveMany= await books.deleteMany({id});
     return resultOfAfterRemoveMany;
 
@@ -55,9 +54,7 @@ async function removeManyBookBy(id){
 
 async function insertBook(id,title,isbn,author,pricephoto,tags,cover,reviews,rating,authorId){
 
-    var connection= await connect(url);
-    var db= connection.db('g7cr_202408');
-    var books= db.collection('books');
+    var books= await connectionDb();
     var insertNewBook = await books.insertOne({id,title,isbn,author,pricephoto,tags,cover,reviews,rating,authorId});
     return insertNewBook;
 
@@ -65,9 +62,7 @@ async function insertBook(id,title,isbn,author,pricephoto,tags,cover,reviews,rat
 
 async function updateBook(id,tags,price){
 
-    var connection= await connect(url);
-    var db= connection.db('g7cr_202408');
-    var books= db.collection('books');
+    var books= await connectionDb();
     var updateBookData = await books.updateOne({id},{$set:{tags:tags,price:price}});
     return updateBookData;
 
